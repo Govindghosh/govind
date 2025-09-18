@@ -1,9 +1,16 @@
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import SEO from '../components/SEO';
 
 export default function Terms() {
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Terms of Service | Govind Ghosh - Web Developer"
+        description="Terms of service for Govind Ghosh's portfolio website. Learn about the terms and conditions for using our website and services."
+        keywords="Terms of Service, Website Terms, Govind Ghosh, Web Developer Terms, Legal Terms"
+        canonical="https://govindghosh.netlify.app/terms"
+      />
       <Navbar />
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-24">
         <section className="prose prose-invert max-w-3xl">

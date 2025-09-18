@@ -62,3 +62,4 @@ const EMAILJS_PUBLIC_KEY = 'your_public_key_here';
 - Never put private keys in frontend code
 - Consider rate limiting for production use
 
+

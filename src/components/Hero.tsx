@@ -74,7 +74,7 @@ export default function Hero() {
                   transition={{ duration: 0.6, delay: 0.2 }}
                   className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground"
                 >
-                  Hi, I'm <span className="gradient-text">Govind</span>
+                  Hi, I'm <span className="gradient-text">Govind Ghosh</span>
                 </motion.h1>
 
             <motion.div
@@ -145,8 +145,8 @@ export default function Hero() {
             >
               <div className="relative w-full h-full rounded-full overflow-hidden z-0">
                 <img
-                  src="/me.png"
-                  alt="Govind profile"
+                  src="/govindghosh.png"
+                  alt="Govind Ghosh - Professional Full Stack Developer and React Specialist"
                   className="w-full h-full object-contain"
                   loading="eager"
                 />

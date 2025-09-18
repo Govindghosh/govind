@@ -36,7 +36,7 @@ export default function About() {
           {/* Section Header */}
           <motion.div variants={itemVariants} className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-              About <span className="gradient-text">Govind</span>
+              About <span className="gradient-text">Govind Ghosh</span>
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Professional Full Stack Developer with expertise in React, Java, Website Development, and MERN stack technologies
@@ -48,7 +48,7 @@ export default function About() {
             <motion.div variants={itemVariants} className="space-y-6">
               <div className="space-y-4">
                 <h3 className="text-2xl font-bold text-foreground">
-                  Govind Ghosh - Full Stack Developer
+                  Govind Ghosh - Professional Full Stack Developer
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">
                   I'm Govind Ghosh, a professional Full Stack Developer based in Vrindavan Mathura with a passion for creating

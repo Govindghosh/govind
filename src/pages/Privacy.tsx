@@ -1,9 +1,16 @@
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import SEO from '../components/SEO';
 
 export default function Privacy() {
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Privacy Policy | Govind Ghosh - Web Developer"
+        description="Privacy policy for Govind Ghosh's portfolio website. Learn how we collect, use, and protect your personal information when you visit our site or contact us."
+        keywords="Privacy Policy, Data Protection, Govind Ghosh, Web Developer Privacy, Contact Information Security"
+        canonical="https://govindghosh.netlify.app/privacy"
+      />
       <Navbar />
       <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-24">
         <section className="prose prose-invert max-w-3xl">
