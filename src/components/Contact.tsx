@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { socialLinks } from '../data/portfolio';
 import { HiMail, HiPhone, HiLocationMarker, HiPaperAirplane } from 'react-icons/hi';
 import { useToast } from '../hooks/use-toast';
+import emailjs from '@emailjs/browser';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -12,28 +13,116 @@ export default function Contact() {
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<{[key: string]: string}>({});
   const { toast } = useToast();
 
+  // EmailJS configuration
+  const EMAILJS_SERVICE_ID = 'service_0ydk177'; // Replace with your EmailJS service ID
+  const EMAILJS_TEMPLATE_ID = 'template_wt5txfk'; // Replace with your EmailJS template ID
+  const EMAILJS_PUBLIC_KEY = 'KgsXJMsHrJGaP4Q7Q'; // Replace with your EmailJS public key
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [name]: value
     }));
+    
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
+    }
+  };
+
+  // Form validation
+  const validateForm = () => {
+    const newErrors: {[key: string]: string} = {};
+    
+    if (!formData.name.trim()) {
+      newErrors.name = 'Name is required';
+    }
+    
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+    
+    if (!formData.subject.trim()) {
+      newErrors.subject = 'Subject is required';
+    }
+    
+    if (!formData.message.trim()) {
+      newErrors.message = 'Message is required';
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = 'Message must be at least 10 characters long';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
-    // Simulate form submission
-    setTimeout(() => {
+    
+    // Validate form
+    if (!validateForm()) {
       toast({
-        title: "Message Sent!",
-        description: "Thank you for your message. I'll get back to you soon!",
+        title: "Validation Error",
+        description: "Please fill in all required fields correctly.",
+        variant: "destructive",
       });
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      return;
+    }
+    
+    setIsSubmitting(true);
+    setErrors({});
+
+    try {
+      // Initialize EmailJS
+      emailjs.init(EMAILJS_PUBLIC_KEY);
+      
+      // Prepare template parameters
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+        to_email: 'govindghosh0@gmail.com', // Your email
+        reply_to: formData.email,
+      };
+
+      // Send email
+      const response = await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams
+      );
+
+      if (response.status === 200) {
+        toast({
+          title: "Message Sent Successfully!",
+          description: "Thank you for your message. I'll get back to you within 24 hours.",
+        });
+        
+        // Reset form
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        throw new Error('Failed to send email');
+      }
+    } catch (error) {
+      console.error('Error sending email:', error);
+      toast({
+        title: "Failed to Send Message",
+        description: "There was an error sending your message. Please try again or contact me directly at govindghosh0@gmail.com",
+        variant: "destructive",
+      });
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
 
   const containerVariants = {
@@ -85,8 +174,30 @@ export default function Contact() {
                 <p className="text-muted-foreground leading-relaxed mb-8">
                   I'm always interested in hearing about new projects and opportunities. 
                   Whether you need a complete web application, want to improve an existing 
-                  project, or just have a question, feel free to reach out.
+                  project, or just have a question, feel free to reach out. You can contact me 
+                  through the form, email, phone, or schedule a call directly.
                 </p>
+                
+                {/* Quick Contact Options */}
+                <div className="grid grid-cols-2 gap-4 mb-8">
+                  <motion.a
+                    href="mailto:govindghosh0@gmail.com"
+                    whileHover={{ scale: 1.02 }}
+                    className="p-4 bg-card border border-border rounded-lg text-center hover:border-primary transition-colors"
+                  >
+                    <HiMail className="w-6 h-6 text-primary mx-auto mb-2" />
+                    <p className="text-sm font-medium">Email Direct</p>
+                  </motion.a>
+                  
+                  <motion.a
+                    href="tel:+917906630435"
+                    whileHover={{ scale: 1.02 }}
+                    className="p-4 bg-card border border-border rounded-lg text-center hover:border-primary transition-colors"
+                  >
+                    <HiPhone className="w-6 h-6 text-primary mx-auto mb-2" />
+                    <p className="text-sm font-medium">Call Now</p>
+                  </motion.a>
+                </div>
               </div>
 
               {/* Contact Details */}
@@ -180,7 +291,7 @@ export default function Contact() {
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
-                      Your Name
+                      Your Name *
                     </label>
                     <input
                       type="text"
@@ -188,14 +299,18 @@ export default function Contact() {
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 bg-card border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
+                      className={`w-full px-4 py-3 bg-card border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 ${
+                        errors.name ? 'border-red-500' : 'border-border'
+                      }`}
                       placeholder="John Doe"
                     />
+                    {errors.name && (
+                      <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+                    )}
                   </div>
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                      Email Address
+                      Email Address *
                     </label>
                     <input
                       type="email"
@@ -203,16 +318,20 @@ export default function Contact() {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 bg-card border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
+                      className={`w-full px-4 py-3 bg-card border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 ${
+                        errors.email ? 'border-red-500' : 'border-border'
+                      }`}
                       placeholder="john@example.com"
                     />
+                    {errors.email && (
+                      <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                    )}
                   </div>
                 </div>
                 
                 <div>
                   <label htmlFor="subject" className="block text-sm font-medium text-foreground mb-2">
-                    Subject
+                    Subject *
                   </label>
                   <input
                     type="text"
@@ -220,26 +339,34 @@ export default function Contact() {
                     name="subject"
                     value={formData.subject}
                     onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-card border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300"
+                    className={`w-full px-4 py-3 bg-card border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 ${
+                      errors.subject ? 'border-red-500' : 'border-border'
+                    }`}
                     placeholder="Project Discussion"
                   />
+                  {errors.subject && (
+                    <p className="text-red-500 text-sm mt-1">{errors.subject}</p>
+                  )}
                 </div>
                 
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
-                    Message
+                    Message *
                   </label>
                   <textarea
                     id="message"
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    required
                     rows={6}
-                    className="w-full px-4 py-3 bg-card border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 resize-none"
+                    className={`w-full px-4 py-3 bg-card border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300 resize-none ${
+                      errors.message ? 'border-red-500' : 'border-border'
+                    }`}
                     placeholder="Tell me about your project..."
                   />
+                  {errors.message && (
+                    <p className="text-red-500 text-sm mt-1">{errors.message}</p>
+                  )}
                 </div>
                 
                 <motion.button

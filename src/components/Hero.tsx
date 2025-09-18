@@ -5,10 +5,11 @@ import { HiDownload, HiMail } from 'react-icons/hi';
 
 const roles = [
   'Full Stack Developer',
-  'React Specialist', 
-  'MERN Expert',
-  'Problem Solver',
-  'UI/UX Enthusiast'
+  'Java Developer', 
+  'Website Developer',
+  'React Developer',
+  'Web Developer',
+  'MERN Stack Expert'
 ];
 
 export default function Hero() {
@@ -92,7 +93,7 @@ export default function Hero() {
                   transition={{ duration: 0.75, delay: 0.35, ease: 'easeOut' }}
                   className="text-lg sm:text-xl text-muted-foreground max-w-2xl leading-relaxed"
                 >
-                  Full Stack Web Developer helping businesses scale with modern web applications. Specializing in React, Node.js, and cloud technologies to deliver exceptional digital experiences.
+                  Govind Ghosh is a professional Full Stack Developer specializing in React, Java, Node.js, and MERN stack technologies. I help businesses scale with modern web applications and deliver exceptional digital experiences.
                 </motion.p>
 
                 <motion.div

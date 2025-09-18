@@ -36,10 +36,10 @@ export default function About() {
           {/* Section Header */}
           <motion.div variants={itemVariants} className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-              About <span className="gradient-text">Me</span>
+              About <span className="gradient-text">Govind</span>
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Passionate developer with expertise in modern web technologies
+              Professional Full Stack Developer with expertise in React, Java, Website Development, and MERN stack technologies
             </p>
           </motion.div>
 
@@ -48,18 +48,18 @@ export default function About() {
             <motion.div variants={itemVariants} className="space-y-6">
               <div className="space-y-4">
                 <h3 className="text-2xl font-bold text-foreground">
-                  Building Digital Excellence
+                  Govind Ghosh - Full Stack Developer
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  I'm a Full Stack Web Developer with a passion for creating
-                  exceptional digital experiences. With expertise in modern web
-                  technologies, I help businesses transform their ideas into
-                  scalable, high-performance applications.
+                  I'm Govind Ghosh, a professional Full Stack Developer based in Vrindavan Mathura with a passion for creating
+                  exceptional digital experiences. With expertise in React, Java, Website Development, Node.js, and MERN stack
+                  technologies, I help businesses in Mathura, Vrindavan, and across India transform their ideas into
+                  scalable, high-performance web applications.
                 </p>
                 <p className="text-muted-foreground leading-relaxed">
-                  My journey in web development spans across frontend and
+                  As a React Developer, Java Developer, and Website Developer serving Vrindavan and Mathura, my journey in web development spans across frontend and
                   backend technologies, with a focus on delivering clean,
-                  maintainable code and user-centric solutions. I believe in
+                  maintainable code and user-centric solutions. I specialize in MERN stack development and custom website development for local businesses and believe in
                   continuous learning and staying updated with the latest
                   industry trends.
                 </p>
@@ -99,7 +99,7 @@ export default function About() {
               </div>
 
               <motion.a
-                href="/resume.pdf"
+                href="/govindghosh.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
